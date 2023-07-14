@@ -269,6 +269,7 @@ def main(args):
     data = datasets.load_dataset(
         "joelito/Multi_Legal_Pile", "es_legal-mc4", split="train", streaming=True
     )
+    dataset_name = "es_legal-mc4"
 
     # this seed is hard-coded to guarantee the same order of the examples (for any --seed)
     seed_for_shuffle = 42
