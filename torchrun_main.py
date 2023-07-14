@@ -296,7 +296,7 @@ def main(args):
 
     # it doesn't matter which tokenizer we use, because we train from scratch
     # T5 tokenizer was trained on C4 and we are also training on C4, so it's a good choice
-    tokenizer = LlamaTokenizer.from_pretrained(model_path)
+    tokenizer = LlamaTokenizer.from_pretrained(args.model_config)
 
     def preprocess_batched(batch):
         batch = tokenizer(
