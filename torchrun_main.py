@@ -163,7 +163,7 @@ def evaluate_model(
     model, preprocess_batched, pad_idx, global_rank, world_size, device, batch_size
 ):
     _time = time.time()
-    data = datasets.load_dataset(
+    val_data = datasets.load_dataset(
         "joelito/Multi_Legal_Pile", "es_caselaw", split="train", streaming=True
     )
     val_data = val_data.shuffle(seed=42)
