@@ -176,7 +176,7 @@ def evaluate_model(
     val_data_mapped = val_data.map(
         preprocess_batched,
         batched=True,
-        remove_columns=["text", "timestamp", "url"],
+        remove_columns=["text", "type", "jurisdiction", "language"],
     )
     val_data_mapped.batch = lambda batch_size: training_utils.batch_fn(
         val_data_mapped, batch_size
