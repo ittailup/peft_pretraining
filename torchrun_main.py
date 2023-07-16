@@ -15,7 +15,7 @@ import torch.utils.data
 import torch.distributed
 
 import transformers
-from transformers import AutoConfig, LlamaTokenizer, AutoModelForCausalLM
+from transformers import AutoConfig, AutoTokenizer, AutoModelForCausalLM
 from transformers import LlamaForCausalLM as HF_LlamaForCausalLM
 
 import datasets
@@ -305,9 +305,9 @@ def main(args):
 
     # it doesn't matter which tokenizer we use, because we train from scratch
     # T5 tokenizer was trained on C4 and we are also training on C4, so it's a good choice
-    tokenizer = LlamaTokenizer.from_pretrained(args.model_config)
-    tokenizer.pad_token_id = 0  # unk. we want this to be different from the eos token
-    tokenizer.padding_side = "left"
+    tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-neox-20b")
+    # tokenizer.pad_token_id = 0  # unk. we want this to be different from the eos token
+    # tokenizer.padding_side = "left"
 
     def preprocess_batched(batch):
         batch = tokenizer(
