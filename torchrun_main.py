@@ -20,6 +20,7 @@ from transformers import LlamaForCausalLM as HF_LlamaForCausalLM
 
 import datasets
 import datasets.distributed
+from datasets import interleave_datasets
 import wandb
 
 from tqdm import tqdm
@@ -266,10 +267,17 @@ def main(args):
         logger.info(f"{k:30} {v}")
     logger.info("*" * 40)
 
-    data = datasets.load_dataset(
+    data1 = datasets.load_dataset(
         "joelito/Multi_Legal_Pile", "es_legal-mc4", split="train", streaming=True
     )
-    dataset_name = "es_legal-mc4"
+
+    data2 = datasets.load_dataset(
+        "joelito/Multi_Legal_Pile", "es_legislation", split="train", streaming=True
+    )
+
+    data = interleave_datasets([data1, data2], probabilities=[0.5, 0.5], seed=42)
+
+    dataset_name = "mlp"
 
     # this seed is hard-coded to guarantee the same order of the examples (for any --seed)
     seed_for_shuffle = 42
