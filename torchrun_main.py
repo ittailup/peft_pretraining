@@ -165,7 +165,7 @@ def evaluate_model(
 ):
     _time = time.time()
     val_data = datasets.load_dataset(
-        "joelito/Multi_Legal_Pile", "es_caselaw", split="train", streaming=True
+        "ittailup/ecu_juri_summaries", split="train", streaming=True
     )
     val_data = val_data.shuffle(seed=42)
     logger.info(f"Loaded validation dataset in {time.time() - _time:.2f} seconds")
@@ -177,7 +177,7 @@ def evaluate_model(
     val_data_mapped = val_data.map(
         preprocess_batched,
         batched=True,
-        remove_columns=["text", "type", "jurisdiction", "language"],
+        remove_columns=["text"],  # , "type", "jurisdiction", "language"],
     )
     val_data_mapped.batch = lambda batch_size: training_utils.batch_fn(
         val_data_mapped, batch_size
@@ -267,15 +267,27 @@ def main(args):
         logger.info(f"{k:30} {v}")
     logger.info("*" * 40)
 
-    data1 = datasets.load_dataset(
-        "joelito/Multi_Legal_Pile", "es_legal-mc4", split="train", streaming=True
+    mlp = datasets.load_dataset(
+        "joelito/Multi_Legal_Pile", "es_all", split="train", streaming=True
     )
 
-    data2 = datasets.load_dataset(
-        "joelito/Multi_Legal_Pile", "es_legislation", split="train", streaming=True
+    cowese = datasets.load_dataset("ittailup/cowese", split="train", streaming=True)
+
+    eswiki = datasets.load_dataset(
+        "graelo/wikipedia", "20230601.es", split="train", streaming=True
     )
 
-    data = interleave_datasets([data1, data2], probabilities=[0.5, 0.5], seed=42)
+    ecu_juri = datasets.load_dataset(
+        "ittailup/ecu_jurisprudencia", split="train", streaming=True
+    )
+
+    csic = datasets.load_dataset("ittailup/csic", split="train", streaming=True)
+
+    data = interleave_datasets(
+        [mlp, cowese, eswiki, ecu_juri, csic],
+        probabilities=[0.3, 0.3, 0.2, 0.1725, 0.025],
+        seed=42,
+    )
 
     dataset_name = "mlp"
 
