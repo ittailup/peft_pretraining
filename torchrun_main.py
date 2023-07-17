@@ -539,6 +539,11 @@ def main(args):
             trainable_params, lr=args.lr, weight_decay=args.weight_decay
         )
         optimizer_state_keys = ["exp_avg", "exp_avg_sq"]
+    elif args.optimizer.lower() == "shampoo":
+        optimizer = torch.optim.Shampoo(
+            trainable_params, lr=args.lr, weight_decay=args.weight_decay
+        )
+        optimizer_state_keys = ["exp_avg", "exp_avg_sq"]
     else:
         raise ValueError(f"Optimizer {args.optimizer} not supported")
 
