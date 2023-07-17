@@ -400,7 +400,7 @@ def main(args):
             r=args.lora_r,
             lora_alpha=32,
             lora_dropout=0.1,
-            target_modules=["attn", "mlp"],
+            target_modules=["q_proj", "v_proj"],
             trainable_scaling=args.train_scaling,
             keep_original_weights=args.continue_from is not None,
             lora_only=not need_linear_weight,
