@@ -285,7 +285,7 @@ def main(args):
 
     data = interleave_datasets(
         [mlp, cowese, eswiki, ecu_juri, csic],
-        probabilities=[0.3, 0.3, 0.2, 0.1725, 0.025],
+        probabilities=[0.3, 0.3, 0.2, 0.175, 0.025],
         seed=42,
     )
 
