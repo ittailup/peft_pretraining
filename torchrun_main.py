@@ -183,7 +183,7 @@ def evaluate_model(
         val_data_mapped, batch_size
     )
 
-    target_eval_tokens = 10_000_000
+    target_eval_tokens = 100_000
     evaluated_on_tokens = 0
     total_loss = torch.tensor(0.0).to(device)
     total_batches = 1
